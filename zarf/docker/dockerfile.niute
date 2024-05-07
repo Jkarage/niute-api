@@ -1,0 +1,25 @@
+# Build the Go Binary.
+FROM golang:1.22 as build_niute
+ENV CGO_ENABLED 0
+ARG BUILD_REF
+
+# Copy the source code into the container.
+COPY . /service
+
+
+# Build the service binary.
+WORKDIR /service/app/services/niute-api
+RUN go build -ldflags "-X main.build=${BUILD_REF}"
+
+# Run the Go Binary in Alpine.
+FROM alpine:3.19
+ARG BUILD_DATE
+ARG BUILD_REF
+RUN addgroup -g 1000 -S niute && \
+    adduser -u 1000 -h /service -G niute -S niute
+COPY --from=build_niute --chown=niute:niute /service/app/services/niute-api /service/niute
+WORKDIR /service
+USER niute
+
+
+CMD ["./niute"]
