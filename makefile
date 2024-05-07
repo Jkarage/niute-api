@@ -3,7 +3,7 @@ SHELL_PATH = /bin/ash
 SHELL = $(if $(wildcard $(SHELL_PATH)),/bin/ash,/bin/bash)
 
 run:
-	go run app/services/niute-api/main.go | go run app/services/tooling/logfmt/main.go
+	go run app/services/deployer-api/main.go | go run app/services/tooling/logfmt/main.go
 
 # ==============================================================================
 # Define dependencies
@@ -22,7 +22,7 @@ KIND_CLUSTER    := niute-dev-cluster
 NAMESPACE       := niute-system
 NIUTE_APP       := niute
 AUTH_APP        := auth
-BASE_IMAGE_NAME := localhost/niute
+BASE_IMAGE_NAME := service
 VERSION         := 0.0.1
 NIUTE_IMAGE     := $(BASE_IMAGE_NAME)/$(NIUTE_APP):$(VERSION)
 METRICS_IMAGE   := $(BASE_IMAGE_NAME)/metrics:$(VERSION)
