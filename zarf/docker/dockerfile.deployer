@@ -7,7 +7,7 @@ ARG BUILD_REF
 COPY . /service
 
 # Build the service binary.
-WORKDIR /service/app/services/niute
+WORKDIR /service/app/services/niute/
 RUN go build -ldflags "-X main.build=${BUILD_REF}"
 
 # Run the Go Binary in Alpine.
@@ -17,9 +17,9 @@ ARG BUILD_REF
 RUN addgroup -g 1000 -S niute && \
     adduser -u 1000 -h /service -G niute -S niute
 
-COPY --from=build_niute --chown=niute:niute /service/app/services/niute/niute /service/niute
+COPY --from=build_niute --chown=niute:niute /service/app/services/niute/niute /service/niute/
 
-WORKDIR /service
+WORKDIR /service/niute
 USER niute
 
 

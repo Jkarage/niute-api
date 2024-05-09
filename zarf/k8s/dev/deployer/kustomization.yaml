@@ -7,5 +7,5 @@ patches:
   - path: ./dev-deployer-patch-deploy.yaml
 images:
   - name: service-image
-    newName: localhost/niute/niute
+    newName: service/deployer
     newTag: 0.0.1

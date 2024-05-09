@@ -19,8 +19,8 @@ LOKI            := grafana/loki:2.9.0
 PROMTAIL        := grafana/promtail:2.9.0
 
 KIND_CLUSTER    := niute-dev-cluster
-NAMESPACE       := niute-system
-NIUTE_APP       := niute
+NAMESPACE       := deployer-system
+NIUTE_APP       := deployer
 AUTH_APP        := auth
 BASE_IMAGE_NAME := service
 VERSION         := 0.0.1
@@ -66,7 +66,7 @@ build: niute
 
 niute:
 	docker build \
-		-f zarf/docker/dockerfile.niute \
+		-f zarf/docker/dockerfile.deployer \
 		-t $(NIUTE_IMAGE) \
 		--build-arg BUILD_REF=$(VERSION) \
 		--build-arg BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ") \
@@ -101,3 +101,30 @@ dev-status:
 	watch -n 2 kubectl get pods -o wide --all-namespaces
 
 # ------------------------------------------------------------------------------
+
+dev-load:
+	kind load docker-image $(NIUTE_IMAGE) --name $(KIND_CLUSTER)
+
+dev-apply:
+	
+	kustomize build zarf/k8s/dev/deployer | kubectl apply -f -
+	kubectl wait pods --namespace=$(NAMESPACE) --selector app=$(NIUTE_APP) --timeout=120s --for=condition=Ready
+
+dev-restart:
+	kubectl rollout restart deployment $(NIUTE_APP) --namespace=$(NAMESPACE)
+
+dev-update: build dev-load dev-restart
+
+dev-update-apply: build dev-load dev-apply
+
+dev-logs:
+	kubectl logs --namespace=$(NAMESPACE) -l app=$(NIUTE_APP) --all-containers=true -f --tail=100 --max-log-requests=6 |  go run app/services/tooling/logfmt/main.go
+
+dev-describe-node:
+	kubectl describe node
+
+dev-describe-deployment:
+	kubectl describe deployment --namespace=$(NAMESPACE) $(NIUTE_APP)
+
+dev-describe-niute:
+	kubectl describe pod --namespace=$(NAMESPACE) -l app=$(NIUTE_APP)

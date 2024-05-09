@@ -26,7 +26,7 @@ spec:
 
       containers:
       - name: deployer
-        image: Service-image
+        image: service-image
         resources:
           limits:
             memory: "36Mi"  
@@ -34,15 +34,3 @@ spec:
           requests:
             memory: "36Mi"  
             cpu: "250m"  
-        
----
-
-apiVersion: v1
-kind: Service
-metadata:
-  name: deployer-service
-  namespace: deployer-system
-
-spec:
-  selector:
-    app: deployer

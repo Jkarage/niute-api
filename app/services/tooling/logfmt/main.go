@@ -32,7 +32,7 @@ func main() {
 		err := json.Unmarshal([]byte(s), &m)
 		if err != nil {
 			if service == "" {
-				fmt.Println(s)
+
 			}
 			continue
 		}
