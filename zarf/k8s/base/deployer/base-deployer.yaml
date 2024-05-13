@@ -30,7 +30,13 @@ spec:
         resources:
           limits:
             memory: "36Mi"  
-            cpu: "250m"  
+            cpu: "500m"  
           requests:
             memory: "36Mi"  
-            cpu: "250m"  
+            cpu: "500m"  
+
+        env:
+        - name: GOMAXPROCS
+          valueFrom:
+            resourceFieldRef:
+              resource: limits.cpu

@@ -27,8 +27,9 @@ spec:
       - name: deployer
         resources:
           requests:
-            cpu: "250m"     # I need access to 25ms/100ms on one core
+            cpu: "500m"     # I need access to 25ms/100ms on one core
             memory: "36Mi"  # Use this same value for limits
           limits:
-            cpu: "250m"     # Execute instructions 25ms/100ms on one core
+            cpu: "500m"     # Execute instructions 25ms/100ms on one core
             memory: "36Mi"  # Match the requests value
+            
