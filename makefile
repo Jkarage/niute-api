@@ -3,7 +3,7 @@ SHELL_PATH = /bin/ash
 SHELL = $(if $(wildcard $(SHELL_PATH)),/bin/ash,/bin/bash)
 
 run:
-	go run app/services/deployer-api/main.go | go run app/services/tooling/logfmt/main.go
+	go run app/services/niute/main.go | go run app/services/tooling/logfmt/main.go
 
 # ==============================================================================
 # Define dependencies
