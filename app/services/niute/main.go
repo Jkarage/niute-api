@@ -74,7 +74,7 @@ func run(ctx context.Context, log *logger.Logger) error {
 		return fmt.Errorf("parsing config: %w", err)
 	}
 
-	expvar.NewString("build").Set(build)
+	expvar.NewString("build").Set(cfg.Build)
 
 	// -------------------------------------------------------------------------
 	// App Starting

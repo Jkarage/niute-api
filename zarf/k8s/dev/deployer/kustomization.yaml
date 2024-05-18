@@ -5,6 +5,7 @@ resources:
 
 patches:
   - path: ./dev-deployer-patch-deploy.yaml
+  - path: ./dev-deployer-patch-service.yaml
 images:
   - name: service-image
     newName: service/deployer

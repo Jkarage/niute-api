@@ -128,3 +128,6 @@ dev-describe-deployment:
 
 dev-describe-niute:
 	kubectl describe pod --namespace=$(NAMESPACE) -l app=$(NIUTE_APP)
+
+talk-metrics:
+	expvarmon -ports="localhost:4000" -vars="build,requests,goroutines,errors,panics,mem:memstats.HeapAlloc,mem:memstats.HeapSys,mem:memstats.Sys"

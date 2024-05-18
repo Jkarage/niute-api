@@ -34,9 +34,25 @@ spec:
           requests:
             memory: "36Mi"  
             cpu: "500m"  
+        ports:
+        - name: deployer
+          containerPort: 3000
+        - name: deployer-debug
+          containerPort: 4000
 
         env:
         - name: GOMAXPROCS
           valueFrom:
             resourceFieldRef:
               resource: limits.cpu
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: deployer-service
+  namespace: deployer-system
+
+spec:
+  selector:
+    app: deployer
