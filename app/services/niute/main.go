@@ -98,6 +98,7 @@ func run(ctx context.Context, log *logger.Logger) error {
 			log.Error(ctx, "shutdown", "status", "debug v1 router closed", "host", cfg.Web.DebugHost, "msg", err)
 		}
 	}()
+
 	shutdown := make(chan os.Signal, 1)
 	signal.Notify(shutdown, syscall.SIGINT, syscall.SIGTERM)
 	sig := <-shutdown
